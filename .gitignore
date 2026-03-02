@@ -17,3 +17,9 @@ output/*
 **/*.egg-info
 .vscode
 data
+
+# 大文件：CUDA 安装包和数据集
+*.run
+*.tar.gz
+acronym.tar.gz
+cuda_*.run
