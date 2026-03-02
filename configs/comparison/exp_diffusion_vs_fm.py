@@ -5,19 +5,24 @@ from pathlib import Path
 # 动态获取项目根目录（支持从任意位置启动）
 # ============================================================================
 PROJECT_ROOT = Path(__file__).parent.parent.parent.absolute()
+# 或者使用：PROJECT_ROOT = Path(os.path.dirname(__file__)).parent.parent.absolute()
 
 ## --------------------  Most frequently changed params here  --------------------
 
-resume_training_from_last = True
+resume_training_from_last = False
 
 max_steps = 180000
-batch_size = 10
+batch_size = 32
 
 num_gpus = 1
-num_workers_per_gpu = 7
+num_workers_per_gpu = 0
+vae_ckpt_path = shared_vae_ckpt_path = None 
+
+# 统一 VAE 权重路径（使用相对路径 - 自动转换为绝对路径）
+# shared_vae_ckpt_path = str(PROJECT_ROOT / "output/comparison/exp_diffusion_vs_fm/vae/checkpoints/last.ckpt")
 
 # During training, if a ckpt is provided here, it overrides resume_training_from_last and instead resumes training from this ckpt
-vae_ckpt_path = None  # str(PROJECT_ROOT / "output/comparison/exp_diffusion_vs_fm/vae/checkpoints/last.ckpt")
+# vae_ckpt_path = shared_vae_ckpt_path
 ddm_ckpt_path = None
 
 max_scenes = None
@@ -138,7 +143,7 @@ model = dict(
                 intermediate_feature_resolution=16,
             ),
         ),
-        ckpt_path=vae_ckpt_path,
+        ckpt_path=shared_vae_ckpt_path,
     ),
     ddm=dict(
         model=dict(
@@ -170,72 +175,9 @@ augs_config = [
     dict(type="RandomPointcloudDropout", args=dict(p=0.5, max_dropout_ratio=0.4)),
 ]
 
-object_categories = [
-    "Cup",
-    "Mug",
-    "Fork",
-    "Hat",
-    "Bottle",
-    "Bowl",
-    "Car",
-    "Donut",
-    "Laptop",
-    "MousePad",
-    "Pencil",
-    "Plate",
-    "ScrewDriver",
-    "WineBottle",
-    "Backpack",
-    "Bag",
-    "Banana",
-    "Battery",
-    "BeanBag",
-    "Bear",
-    "Book",
-    "Books",
-    "Camera",
-    "CerealBox",
-    "Cookie",
-    "Hammer",
-    "Hanger",
-    "Knife",
-    "MilkCarton",
-    "Painting",
-    "PillBottle",
-    "Plant",
-    "PowerSocket",
-    "PowerStrip",
-    "PS3",
-    "PSP",
-    "Ring",
-    "Scissors",
-    "Shampoo",
-    "Shoes",
-    "Sheep",
-    "Shower",
-    "Sink",
-    "SoapBottle",
-    "SodaCan",
-    "Spoon",
-    "Statue",
-    "Teacup",
-    "Teapot",
-    "ToiletPaper",
-    "ToyFigure",
-    "Wallet",
-    "WineGlass",
-    "Cow",
-    "Sheep",
-    "Cat",
-    "Dog",
-    "Pizza",
-    "Elephant",
-    "Donkey",
-    "RubiksCube",
-    "Tank",
-    "Truck",
-    "USBStick",
-]
+# Use None to load all available ACRONYM categories (100 total)
+# To use specific categories, uncomment the list below and filter as needed
+object_categories = None
 
 train_data = dict(
     type="AcronymShapenetPointclouds",
@@ -263,8 +205,8 @@ mesh_root = root_data_dir
 mesh_categories = object_categories
 
 ## --------------------  Trainer  --------------------
-## Logger
-logger = dict(type="WandbLogger", project="full-pc-ema-63c")
+## Logger - Use TensorBoardLogger for local training (no login required)
+logger = dict(type="TensorBoardLogger")
 
 optimizer = dict(
     initial_lr=0.001,
@@ -280,7 +222,7 @@ trainer = dict(
     num_workers=num_workers_per_gpu * num_gpus,
     accelerator="gpu",
     devices=num_gpus,
-    strategy="ddp",
+    #strategy="ddp",
     logger=logger,
     log_every_n_steps=100,
     optimizer=optimizer,

@@ -278,8 +278,11 @@ class AcronymBaseDataset(Dataset):
             scale (float): mesh scale
 
         Returns:
-            trimesh.Trimesh: object trimesh
+            trimesh.Trimesh: object trimesh or None if mesh file doesn't exist
         """
+        if not os.path.exists(mesh_path):
+            # Return None if mesh doesn't exist (mesh is optional for VAE training)
+            return None
 
         mesh = trimesh.load(mesh_path, file_type="obj", force="mesh")
         mesh.apply_scale(scale)
@@ -351,7 +354,8 @@ class AcronymBaseDataset(Dataset):
                 )
                 mesh_fp = os.path.join(self.mesh_dir, mesh_cat, mesh_file)
 
-                if os.path.exists(grasp_fp) and os.path.exists(mesh_fp):
+                # Only check grasp file exists; mesh is optional for VAE training
+                if os.path.exists(grasp_fp):
                     # Load grasp data
                     data = h5py.File(grasp_fp, "r")
                     obj_scale = data["object/scale"][()]

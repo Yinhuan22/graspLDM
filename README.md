@@ -1,4 +1,10 @@
-## <p align="center">GraspLDM: Generative 6-DoF Grasp Synthesis using Latent Diffusion Models<br> </p>
+# graspLDM
+
+<p align="center">
+  <img src="doc/img/arch_graspldm.png" width="75%" />
+</p>
+
+## <p align="center">Generative 6-DoF Grasp Synthesis using Latent Diffusion Models</p>
 
 <div align="center">
   <a href="https://kuldeepbrd1.github.io" target="_blank">Kuldeep&nbsp;Barad</a> &emsp; <b>&middot;</b> &emsp;
@@ -6,16 +12,48 @@
   <a href="https://wwwen.uni.lu/layout/set/print/snt/people/antoine_richard" target="_blank">Antoine&nbsp;Richard</a> &emsp; <b>&middot;</b> &emsp;
   <a href="https://scholar.google.com/citations?user=qDJjBAIAAAAJ&hl=en" target="_blank">Jan&nbsp;Dentler</a> &emsp; <b>&middot;</b> &emsp;
   <a href="https://www.spacer.lu/" target="_blank">Miguel&nbsp;Olivares-Mendez</a> &emsp; <b>&middot;</b> &emsp;
-  <a href="https://carolmartinez.github.io/" target="_blank">Carol&nbsp;Martinez</a> &emsp;
-  <br>
-<!--   <a href="https://arxiv.org/abs/xxx" target="_blank">Paper</a> &emsp; -->
-<!--   <a href="https://x" target="_blank">Project&nbsp;Page</a>  -->
-  <h3><a href="" target="_blank"> ArXiv</a> &nbsp; | &nbsp; <a href="https://kuldeepbrd1.github.io/grasp_ldm/" target="https://youtu.be/z3-otAp28XA">Video</a></h3>
-
-<p align="center">
-  <img src="doc/img/arch_graspldm.png" width="75%" />
-</p>
+  <a href="https://carolmartinez.github.io/" target="_blank">Carol&nbsp;Martinez</a>
+  <br><br>
+  <a href="" target="_blank">ArXiv</a> &nbsp; | &nbsp; <a href="https://kuldeepbrd1.github.io/grasp_ldm/">Project Page</a> &nbsp; | &nbsp; <a href="https://youtu.be/z3-otAp28XA">Video</a>
 </div>
+
+---
+
+## 📚 中文文档 / Chinese Documentation
+
+### 🚀 快速开始 / Quick Start
+
+**推荐阅读顺序 / Recommended Reading Order**：
+
+1. **[使用指南.md](使用指南.md)** ⭐ - 总使用说明（从这里开始！）
+2. **[QUICK_START_CN.md](QUICK_START_CN.md)** - 5 分钟快速开始
+3. **[QUICK_EXPERIMENT_START_CN.md](QUICK_EXPERIMENT_START_CN.md)** - 实验快速启动
+4. **[RUN_EXPERIMENT_GUIDE_CN.md](RUN_EXPERIMENT_GUIDE_CN.md)** - 详细实验指南
+
+### 📖 详细文档 / Detailed Docs (docs/)
+
+- **[docs/DEPLOYMENT_GUIDE_CN.md](docs/DEPLOYMENT_GUIDE_CN.md)** - 完整部署指南
+- **[docs/WEBIDE_RESULTS_VIEWER_CN.md](docs/WEBIDE_RESULTS_VIEWER_CN.md)** - WebIDE 查看结果
+- **[docs/WEBIDE_QUICK_REFERENCE_CN.md](docs/WEBIDE_QUICK_REFERENCE_CN.md)** - 命令快速参考
+
+### ⚡ 一键启动 / One-Click Start
+
+```bash
+# 1. 检查环境 / Check Environment
+python3 check_before_start.py
+
+# 2. 启动实验（交互式菜单）/ Start Experiment (Interactive Menu)
+./start_experiment.sh
+
+# 3. 查看结果 / View Results
+./view_all_results.sh
+```
+
+---
+
+## 📖 English Documentation (Original)
+
+### Overview
 
 Vision-based grasping of unknown objects in unstructured environments is a key challenge for autonomous robotic manipulation. A practical grasp synthesis system is required to generate a diverse set of 6-DoF grasps from which a task-relevant grasp can be executed. Although generative models are suitable for learning such complex data distributions, existing models have limitations in grasp quality, long training times, and a lack of flexibility for task-specific generation. In this work, we present GraspLDM, a modular generative framework for 6-DoF grasp synthesis that uses diffusion models as priors in the latent space of a VAE. GraspLDM learns a generative model of object-centric SE(3) grasp poses conditioned on point clouds. GraspLDM's architecture enables us to train task-specific models efficiently by only re-training a small denoising network in the low-dimensional latent space, as opposed to existing models that need expensive re-training. Our framework provides robust and scalable models on both full and partial point clouds. GraspLDM models trained with simulation data transfer well to the real world without any further fine-tuning. Our models provide an 80% success rate for 80 grasp attempts of diverse test objects across two real-world robotic setups.
 

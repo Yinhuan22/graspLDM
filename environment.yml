@@ -8,4 +8,4 @@ dependencies:
   # glibc and opengl issueas for visualization with trimesh/pyglet
   - pip
   - pip:
-    - -r file:requirements.txt
+    - -r requirements.txt

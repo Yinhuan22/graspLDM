@@ -1,4 +1,10 @@
 import os
+from pathlib import Path
+
+# ============================================================================
+# 动态获取项目根目录（支持从任意位置启动）
+# ============================================================================
+PROJECT_ROOT = Path(__file__).parent.parent.parent.absolute()
 
 ## --------------------  Most frequently changed params here  --------------------
 
@@ -11,14 +17,16 @@ num_gpus = 1
 num_workers_per_gpu = 7
 
 # During training, if a ckpt is provided here, it overrides resume_training_from_last and instead resumes training from this ckpt
-vae_ckpt_path = None  # "output/boilerplate_kldanneal_c0.1/vae/checkpoints/last.ckpt"
+vae_ckpt_path = None  # str(PROJECT_ROOT / "output/comparison/exp_diffusion_vs_fm/vae/checkpoints/last.ckpt")
 ddm_ckpt_path = None
 
 max_scenes = None
 
-
-root_data_dir = "data/acronym/renders/objects_filtered_grasps_63cat_8k/"
-camera_json = "grasp_ldm/dataset/cameras/camera_d435i_dummy.json"
+# ============================================================================
+# 数据和输出目录（相对路径 -> 绝对路径）
+# ============================================================================
+root_data_dir = str(PROJECT_ROOT / "data/acronym/renders/objects_filtered_grasps_63cat_8k/")
+camera_json = str(PROJECT_ROOT / "grasp_ldm/dataset/cameras/camera_d435i_dummy.json")
 
 ## -------------------- Inputs/Shapes ------------------------
 # Input/Output: grasp representation [mrp(3), t(3), cls_success(1), qualities(4)]

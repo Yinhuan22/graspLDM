@@ -2,6 +2,7 @@ import glob
 import os
 import shutil
 import warnings
+from pathlib import Path
 
 
 class Experiment:
@@ -34,9 +35,16 @@ class Experiment:
         self.name = os.path.basename(relative_config_path).split(".")[0]
         self.category = os.path.dirname(relative_config_path)
 
-        # Experiment directories
-        self.out_dir = out_dir
-        self.exp_dir = os.path.join(os.path.abspath(out_dir), self.category, self.name)
+        # Experiment directories（支持相对路径）
+        # 如果 out_dir 是相对路径，转换为相对于项目根目录的绝对路径
+        if not os.path.isabs(out_dir):
+            # 获取项目根目录（从当前文件向上3级找到项目根目录）
+            project_root = Path(__file__).parent.parent.parent.absolute()
+            self.out_dir = str(project_root / out_dir)
+        else:
+            self.out_dir = out_dir
+        
+        self.exp_dir = os.path.join(self.out_dir, self.category, self.name)
         self.model_dir = self.exp_dir + (
             f"/{model_suffix}" if model_suffix is not None else ""
         )

@@ -1,7 +1,13 @@
 import os
 import sys
+from pathlib import Path
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# ============================================================================
+# 动态获取项目根目录（支持从任意位置启动）
+# ============================================================================
+PROJECT_ROOT = Path(__file__).parent.parent.absolute()
+sys.path.insert(0, str(PROJECT_ROOT))  # 确保能导入 grasp_ldm
+
 import argparse
 
 from grasp_ldm.trainers import E_Trainers
@@ -84,7 +90,13 @@ def set_deterministic(config, args):
 
 def main(args):
     ## -- Config --
-    config = Config.fromfile(args.config)
+    # 支持相对路径的配置文件
+    config_path = args.config
+    if not os.path.isabs(config_path):
+        # 如果是相对路径，转换为相对于项目根目录的绝对路径
+        config_path = str(PROJECT_ROOT / config_path)
+    
+    config = Config.fromfile(config_path)
 
     # Overwrite config with args
     ## Overwrite config with args

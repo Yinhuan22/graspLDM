@@ -7,11 +7,11 @@ import torch
 import torcheval.metrics.functional as Metrics
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
 from pytorch_lightning.loggers import CSVLogger, Logger, TensorBoardLogger, WandbLogger
-from utils.rotations import tmrp_to_H
 
 from grasp_ldm.dataset.builder import build_dataset_from_cfg
 from grasp_ldm.models.builder import build_model_from_cfg
 from grasp_ldm.utils.config import Config
+from grasp_ldm.utils.rotations import tmrp_to_H
 from grasp_ldm.utils.torch_utils import fix_state_dict_prefix
 
 from .experiment import Experiment

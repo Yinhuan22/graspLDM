@@ -11,14 +11,15 @@ pandas>=1.5.1
 Pillow>=9.2.0
 pyglet==1.5.27
 pyrender
-pytorch-lightning==1.8.0
+pytorch-lightning==1.8.6
 scikit-learn==1.2.2
 scipy>=1.9.0
 seaborn>=0.12.1
 shapely>=2.0.0
 six>=1.16.0
-torch==1.13.1 -e https://download.pytorch.org/whl/cu117
-torchvision==0.14.1 -e https://download.pytorch.org/whl/cu117
+--extra-index-url https://download.pytorch.org/whl/cu117
+torch==1.13.1+cu117
+torchvision==0.14.1+cu117
 tqdm==4.64.1
 trimesh==3.17.1
 # wandb==0.13.6 # Logging

@@ -4,6 +4,7 @@ import warnings
 from abc import abstractmethod
 from enum import Enum
 from typing import Any, Sequence
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -15,6 +16,11 @@ from grasp_ldm.utils.config import Config
 from grasp_ldm.utils.rotations import tmrp_to_H
 from grasp_ldm.utils.torch_utils import fix_state_dict_prefix
 from grasp_ldm.utils.vis import visualize_pc_grasps
+
+# ============================================================================
+# 动态获取项目根目录（支持从任意位置启动）
+# ============================================================================
+PROJECT_ROOT = Path(__file__).parent.parent.absolute()
 
 
 class Conditioning(Enum):
